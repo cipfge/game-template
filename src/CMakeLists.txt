@@ -1,6 +1,10 @@
 find_package(OpenGL REQUIRED)
 
 set(GAME_SOURCE_FILES
+    "game.hpp"
+    "game.cpp"
+    "logger.hpp"
+    "logger.cpp"
     "main.cpp"
     )
 
@@ -9,6 +13,7 @@ add_executable(snake ${GAME_SOURCE_FILES})
 target_include_directories(snake
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        "../thirdparty/glfw/include"
     )
 
 target_link_libraries(snake
