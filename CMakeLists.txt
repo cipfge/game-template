@@ -15,4 +15,5 @@ set(GLFW_INSTALL OFF CACHE BOOL "Generate installation target" FORCE)
 
 add_subdirectory(thirdparty/glfw)
 add_subdirectory(thirdparty/glad)
+add_subdirectory(thirdparty/glm)
 add_subdirectory(src)

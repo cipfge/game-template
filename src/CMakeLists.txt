@@ -22,6 +22,7 @@ target_include_directories(snake
         ${CMAKE_CURRENT_SOURCE_DIR}
         "../thirdparty/glad/include"
         "../thirdparty/glfw/include"
+        "../thirdparty/glm"
     )
 
 target_link_libraries(snake
@@ -29,6 +30,7 @@ target_link_libraries(snake
         OpenGL::GL
         glad
         glfw
+        glm
     )
 
 set_target_properties(snake

@@ -56,7 +56,16 @@ void Game::run()
 {
     while (!glfwWindowShouldClose(m_window))
     {
-        render();
+        switch (m_state)
+        {
+        case GAME_MAIN_MENU: // TODO: main menu
+        case GAME_ACTIVE: // TODO: gameplay
+        case GAME_PAUSED: // TODO: pause menu
+        case GAME_OVER: // TODO: game over
+        default:
+            render();
+            break;
+        }
     }
 }
 
