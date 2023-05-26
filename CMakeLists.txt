@@ -13,6 +13,6 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build the GLFW test programs" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build the GLFW example programs" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "Generate installation target" FORCE)
 
-add_subdirectory(thirdparty/glfw/)
-
+add_subdirectory(thirdparty/glfw)
+add_subdirectory(thirdparty/glad)
 add_subdirectory(src)
