@@ -6,6 +6,9 @@ set(GAME_SOURCE_FILES
     "logger.hpp"
     "logger.cpp"
     "platform.hpp"
+    "shader.hpp"
+    "shader.cpp"
+    "utils.hpp"
     "main.cpp"
     )
 

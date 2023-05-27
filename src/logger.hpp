@@ -8,4 +8,4 @@ void info(const char *fmt, ...);
 void warning(const char *fmt, ...);
 void error(const char *fmt, ...);
 
-}
+} // namespace logger

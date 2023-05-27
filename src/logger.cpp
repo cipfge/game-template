@@ -65,4 +65,4 @@ void error(const char *fmt, ...)
     va_end(args);
 }
 
-}
+} // namespace logger
