@@ -1,6 +1,7 @@
 #include "shader.hpp"
 #include "utils.hpp"
 #include "logger.hpp"
+#include <glm/gtc/type_ptr.hpp>
 #include <fstream>
 
 Shader::Shader(const std::string &vertex_path, const std::string &fragment_path)
@@ -20,6 +21,36 @@ Shader::~Shader()
 void Shader::use()
 {
     glUseProgram(m_program);
+}
+
+void Shader::set_float(const char *name, float value)
+{
+    glUniform1f(glGetUniformLocation(m_program, name), value);
+}
+
+void Shader::set_int(const char *name, int value)
+{
+    glUniform1i(glGetUniformLocation(m_program, name), value);
+}
+
+void Shader::set_vec2(const char *name, const glm::vec2 &vec)
+{
+    glUniform2f(glGetUniformLocation(m_program, name), vec.x, vec.y);
+}
+
+void Shader::set_vec3(const char *name, const glm::vec3 &vec)
+{
+    glUniform3f(glGetUniformLocation(m_program, name), vec.x, vec.y, vec.z);
+}
+
+void Shader::set_vec4(const char *name, const glm::vec4 &vec)
+{
+    glUniform4f(glGetUniformLocation(m_program, name), vec.x, vec.y, vec.z, vec.w);
+}
+
+void Shader::set_mat4(const char *name, const glm::mat4 &mat)
+{
+    glUniformMatrix4fv(glGetUniformLocation(m_program, name), 1, false, glm::value_ptr(mat));
 }
 
 std::string Shader::read_shader_file(const std::string &file_path)
