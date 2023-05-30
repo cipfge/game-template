@@ -3,6 +3,11 @@
 Snake game written in C++ with OpenGL
 
 ## Linux
+Clone and update the submodules
+```bash
+git clone [url]
+git submodule update --init --recursive
+```
 
 Install requirements
 ```bash
@@ -29,7 +34,14 @@ ninja
 ```
 
 ## Windows
+Install [git-scm](https://git-scm.com/)
 
 Clone and update the submodules
+```
+git clone [url]
+git submodule update --init --recursive
+```
 
 Open the **snake** directory in ***Visual Studio***
+
+Don't forget to copy all assets to **build** directory
