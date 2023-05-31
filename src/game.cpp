@@ -50,6 +50,18 @@ bool Game::init()
         return false;
     }
 
+    glViewport(0, 0, m_window_width, m_window_height);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    if (!m_renderer.init())
+        return false;
+
+    logger::info("OpenGL initialized:");
+    logger::info("\tVendor: %s", glGetString(GL_VENDOR));
+    logger::info("\tRenderer: %s", glGetString(GL_RENDERER));
+    logger::info("\tVersion: %s", glGetString(GL_VERSION));
+
     return true;
 }
 
@@ -57,16 +69,8 @@ void Game::run()
 {
     while (!glfwWindowShouldClose(m_window))
     {
-        switch (m_state)
-        {
-        case GAME_MAIN_MENU: // TODO: main menu
-        case GAME_ACTIVE: // TODO: gameplay
-        case GAME_PAUSED: // TODO: pause menu
-        case GAME_OVER: // TODO: game over
-        default:
-            render();
-            break;
-        }
+        glfwPollEvents();
+        render();
     }
 }
 
@@ -85,9 +89,11 @@ void Game::resize_event(int width, int height)
 
 void Game::render()
 {
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // text test
+    m_renderer.render_text("This is a test string", 20.0f, 20.f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
     glfwSwapBuffers(m_window);
-    glfwPollEvents();
 }

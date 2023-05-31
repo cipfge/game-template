@@ -1,4 +1,5 @@
 find_package(OpenGL REQUIRED)
+find_package(Freetype REQUIRED)
 
 set(GAME_SOURCE_FILES
     "game.hpp"
@@ -6,12 +7,13 @@ set(GAME_SOURCE_FILES
     "logger.hpp"
     "logger.cpp"
     "platform.hpp"
+    "renderer.hpp"
+    "renderer.cpp"
     "shader.hpp"
     "shader.cpp"
     "utils.hpp"
     "main.cpp"
     )
-
 
 set(APPLICATION_TYPE "")
 if (WIN32)
@@ -26,6 +28,7 @@ target_include_directories(snake
         "../thirdparty/glad/include"
         "../thirdparty/glfw/include"
         "../thirdparty/glm"
+        ${FREETYPE_INCLUDE_DIRS}
     )
 
 target_link_libraries(snake
@@ -34,6 +37,7 @@ target_link_libraries(snake
         glad
         glfw
         glm
+        ${FREETYPE_LIBRARIES}
     )
 
 set_target_properties(snake

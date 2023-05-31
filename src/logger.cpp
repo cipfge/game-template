@@ -21,12 +21,12 @@ void log_output(log_level level, const char *fmt, std::va_list args)
     char buffer[LOG_BUFFER_SIZE] = { 0 };
     static const char *log_level_names[LOG_LEVEL_MAX] = { "debug", "info", "warning", "error" };
 
-    std::vsnprintf(buffer, LOG_BUFFER_SIZE, fmt, args);
+    std::vsnprintf(buffer, sizeof(buffer), fmt, args);
 
     if (level == LOG_LEVEL_ERROR)
-        std::fprintf(stderr, "[%s]: %s\n", log_level_names[level], buffer);
+        std::cerr << "[" << log_level_names[level] << "]: " <<  buffer << "\n";
     else
-        std::fprintf(stdout, "[%s]: %s\n", log_level_names[level], buffer);
+        std::cout << "[" << log_level_names[level] << "]: " <<  buffer << "\n";
 }
 
 void debug(const char *fmt, ...)

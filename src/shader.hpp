@@ -7,10 +7,12 @@
 class Shader
 {
 public:
-    Shader(const std::string &vertex_path, const std::string &fragment_path);
-    ~Shader();
+    Shader() = default;
+    ~Shader() = default;
 
+    bool load(const std::string &vertex_path, const std::string &fragment_path);
     void use();
+    void delete_program();
 
     void set_float(const char *name, float value);
     void set_int(const char *name, int value);
@@ -20,9 +22,9 @@ public:
     void set_mat4(const char *name, const glm::mat4 &mat);
 
 private:
-    GLuint m_program = 0;
+    GLuint m_program_id = 0;
 
     std::string read_shader_file(const std::string &file_path);
     GLuint compile(GLuint type, const char *source);
-    void create_shader(const std::string &vertex_src, const std::string &fragment_src);
+    bool create_program(const std::string &vertex_src, const std::string &fragment_src);
 };
