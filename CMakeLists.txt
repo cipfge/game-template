@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(snake VERSION 0.1.0 LANGUAGES C CXX)
+project(game VERSION 0.1.0 LANGUAGES C CXX)
 
 set(DEFAULT_BUILD_TYPE "Debug")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -16,4 +16,5 @@ set(GLFW_INSTALL OFF CACHE BOOL "Generate installation target" FORCE)
 add_subdirectory(thirdparty/glfw)
 add_subdirectory(thirdparty/glad)
 add_subdirectory(thirdparty/glm)
+add_subdirectory(thirdparty/stb)
 add_subdirectory(src)

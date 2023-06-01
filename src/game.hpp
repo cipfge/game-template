@@ -18,7 +18,7 @@ private:
     GLFWwindow *m_window = nullptr;
     int m_window_width = 800;
     int m_window_height = 800;
-    std::string m_window_title = "Snake";
+    std::string m_window_title = "OpenGL Game";
     Renderer m_renderer;
 
     void input_event(int key, int scancode, int action, int mode);
