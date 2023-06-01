@@ -1,6 +1,6 @@
-# Snake
+# Game
 
-Snake game written in C++ with OpenGL
+2D game written in C++ with OpenGL
 
 ## Linux
 Clone and update the submodules
@@ -26,7 +26,7 @@ sudo apt install libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-m
 
 Compilation
 ```bash
-cd snake
+cd game
 mkdir build
 cd build
 cmake -G Ninja ..
@@ -42,6 +42,6 @@ git clone [url]
 git submodule update --init --recursive
 ```
 
-Open the **snake** directory in ***Visual Studio***
+Open the **game** directory in ***Visual Studio***
 
 Don't forget to copy all assets to **build** directory
