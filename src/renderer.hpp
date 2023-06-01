@@ -20,9 +20,9 @@ public:
     Renderer();
     ~Renderer();
 
-    bool init();
+    bool init(int width, int height);
     void cleanup();
-
+    void resize(int width, int height);
     void render_text(const std::string &text, float x, float y, float scale, glm::vec3 color);
 
 private:

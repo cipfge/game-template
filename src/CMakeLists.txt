@@ -11,6 +11,10 @@ set(GAME_SOURCE_FILES
     "renderer.cpp"
     "shader.hpp"
     "shader.cpp"
+    "stb_image.h"
+    "stb_image.cpp"
+    "texture.hpp"
+    "texture.cpp"
     "utils.hpp"
     "main.cpp"
     )

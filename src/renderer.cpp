@@ -12,16 +12,16 @@ Renderer::~Renderer()
 {
 }
 
-bool Renderer::init()
+bool Renderer::init(int width, int height)
 {
     if (!m_text_shader.load("text.vs", "text.fs"))
         return false;
 
     m_text_shader.use();
-    m_text_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(800), static_cast<float>(800), 0.0f));
+    m_text_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f));
     m_text_shader.set_int("text", 0);
 
-    if (!load_font("cascadia_mono.ttf", 48))
+    if (!load_font("game_font.ttf", 48))
         return false;
 
     glGenVertexArrays(1, &m_vao);
@@ -40,6 +40,11 @@ bool Renderer::init()
 void Renderer::cleanup()
 {
     m_text_shader.delete_program();
+}
+
+void Renderer::resize(int width, int height)
+{
+    m_text_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f));
 }
 
 void Renderer::render_text(const std::string &text, float x, float y, float scale, glm::vec3 color)

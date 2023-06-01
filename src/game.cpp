@@ -54,7 +54,7 @@ bool Game::init()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    if (!m_renderer.init())
+    if (!m_renderer.init(m_window_width, m_window_height))
         return false;
 
     logger::info("OpenGL initialized:");
@@ -84,6 +84,8 @@ void Game::resize_event(int width, int height)
 {
     m_window_width = width;
     m_window_height = height;
+    m_renderer.resize(m_window_width, m_window_height);
+
     glViewport(0, 0, m_window_width, m_window_height);
 }
 
@@ -92,8 +94,7 @@ void Game::render()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // text test
-    m_renderer.render_text("This is a test string", 20.0f, 20.f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    m_renderer.render_text("Text", 20.0f, 20.f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glfwSwapBuffers(m_window);
 }
