@@ -6,6 +6,7 @@
 
 Game::~Game()
 {
+    m_renderer.cleanup();
     glfwDestroyWindow(m_window);
     glfwTerminate();
 }
@@ -51,6 +52,7 @@ bool Game::init()
     }
 
     glViewport(0, 0, m_window_width, m_window_height);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -93,8 +95,6 @@ void Game::render()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    m_renderer.render_text("Text", 20.0f, 20.f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glfwSwapBuffers(m_window);
 }

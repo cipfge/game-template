@@ -18,8 +18,8 @@ struct Character
 class Renderer
 {
 public:
-    Renderer();
-    ~Renderer();
+    Renderer() = default;
+    ~Renderer() = default;
 
     bool init(int width, int height);
     void cleanup();
@@ -31,6 +31,8 @@ private:
     Shader m_text_shader;
     Shader m_sprite_shader;
     std::map<char, Character> m_characters;
+    int m_width = 0;
+    int m_height = 0;
     GLuint m_text_vao;
     GLuint m_text_vbo;
     GLuint m_sprite_vao;

@@ -4,22 +4,16 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-Renderer::Renderer()
-{
-}
-
-Renderer::~Renderer()
-{
-}
-
 bool Renderer::init(int width, int height)
 {
+    m_width = width;
+    m_height = height;
+
     // Text render data
     if (!m_text_shader.load("text.vs", "text.fs"))
         return false;
 
     m_text_shader.use();
-    m_text_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f));
     m_text_shader.set_int("text", 0);
 
     if (!load_font("game_font.ttf", 48))
@@ -38,6 +32,9 @@ bool Renderer::init(int width, int height)
     // Sprite render data
     if (!m_sprite_shader.load("sprite.vs", "sprite.fs"))
         return false;
+
+    m_sprite_shader.use();
+    m_sprite_shader.set_int("sprite", 0);
 
     float vertices[] = {
        0.0f, 1.0f, 0.0f, 1.0f,
@@ -66,6 +63,10 @@ bool Renderer::init(int width, int height)
 
 void Renderer::cleanup()
 {
+    for (auto it: m_characters)
+        glDeleteTextures(1, &it.second.texture_id);
+    m_characters.clear();
+
     m_text_shader.delete_program();
     m_sprite_shader.delete_program();
 
@@ -75,13 +76,15 @@ void Renderer::cleanup()
 
 void Renderer::resize(int width, int height)
 {
-    m_text_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f));
+    m_width = width;
+    m_height = height;
 }
 
 void Renderer::render_text(const std::string &text, float x, float y, float scale, glm::vec3 color)
 {
     m_text_shader.use();
-    m_text_shader.set_vec3("textColor", color);
+    m_text_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f));
+    m_text_shader.set_vec3("text_color", color);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(m_text_vao);
@@ -129,8 +132,9 @@ void Renderer::render_sprite(const Texture &texture, glm::vec2 position, glm::ve
     model = glm::scale(model, glm::vec3(size, 1.0f));
 
     m_sprite_shader.use();
+    m_sprite_shader.set_mat4("projection", glm::ortho(0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f));
     m_sprite_shader.set_mat4("model", model);
-    m_sprite_shader.set_vec3("spriteColor", color);
+    m_sprite_shader.set_vec3("sprite_color", color);
 
     glActiveTexture(GL_TEXTURE0);
     texture.bind();

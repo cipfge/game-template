@@ -21,12 +21,7 @@ private:
     GLuint m_id = 0;
     GLuint m_width = 0;
     GLuint m_height = 0;
+    GLuint m_channels = 0;
     GLuint m_internal_format = GL_RGBA;
     GLuint m_image_format = GL_RGBA;
-    GLuint m_wrap_s = GL_REPEAT;
-    GLuint m_wrap_t = GL_REPEAT;
-    GLuint m_filter_min = GL_LINEAR;
-    GLuint m_filter_max = GL_LINEAR;
-
-    void generate(GLuint width, GLuint height, uint8_t *data);
 };
