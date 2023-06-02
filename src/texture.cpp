@@ -38,10 +38,10 @@ void Texture::delete_texture()
 
 void Texture::generate(GLuint width, GLuint height, uint8_t *data)
 {
-    glGenTextures(1, &m_id);
     m_width = width;
     m_height = height;
 
+    glGenTextures(1, &m_id);
     glBindTexture(GL_TEXTURE_2D, m_id);
     glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, width, height, 0, m_image_format, GL_UNSIGNED_BYTE, data);
 

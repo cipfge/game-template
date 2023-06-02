@@ -14,6 +14,7 @@ Renderer::~Renderer()
 
 bool Renderer::init(int width, int height)
 {
+    // Text render data
     if (!m_text_shader.load("text.vs", "text.fs"))
         return false;
 
@@ -24,13 +25,39 @@ bool Renderer::init(int width, int height)
     if (!load_font("game_font.ttf", 48))
         return false;
 
-    glGenVertexArrays(1, &m_vao);
-    glGenBuffers(1, &m_vbo);
-    glBindVertexArray(m_vao);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glGenVertexArrays(1, &m_text_vao);
+    glGenBuffers(1, &m_text_vbo);
+    glBindVertexArray(m_text_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_text_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    // Sprite render data
+    if (!m_sprite_shader.load("sprite.vs", "sprite.fs"))
+        return false;
+
+    float vertices[] = {
+       0.0f, 1.0f, 0.0f, 1.0f,
+       1.0f, 0.0f, 1.0f, 0.0f,
+       0.0f, 0.0f, 0.0f, 0.0f,
+
+       0.0f, 1.0f, 0.0f, 1.0f,
+       1.0f, 1.0f, 1.0f, 1.0f,
+       1.0f, 0.0f, 1.0f, 0.0f
+    };
+
+    glGenVertexArrays(1, &m_sprite_vao);
+    glGenBuffers(1, &m_sprite_vbo);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_sprite_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindVertexArray(m_sprite_vao);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
@@ -40,6 +67,10 @@ bool Renderer::init(int width, int height)
 void Renderer::cleanup()
 {
     m_text_shader.delete_program();
+    m_sprite_shader.delete_program();
+
+    glDeleteVertexArrays(1, &m_sprite_vao);
+    glDeleteVertexArrays(1, &m_text_vao);
 }
 
 void Renderer::resize(int width, int height)
@@ -53,7 +84,7 @@ void Renderer::render_text(const std::string &text, float x, float y, float scal
     m_text_shader.set_vec3("textColor", color);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(m_vao);
+    glBindVertexArray(m_text_vao);
 
     for (std::string::const_iterator c = text.begin(); c != text.end(); c++)
     {
@@ -75,7 +106,7 @@ void Renderer::render_text(const std::string &text, float x, float y, float scal
         };
 
         glBindTexture(GL_TEXTURE_2D, ch.texture_id);
-        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, m_text_vbo);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -85,6 +116,28 @@ void Renderer::render_text(const std::string &text, float x, float y, float scal
 
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer::render_sprite(const Texture &texture, glm::vec2 position, glm::vec2 size, glm::vec3 color, float rotation)
+{
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(position, 0.0f));
+
+    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+    model = glm::scale(model, glm::vec3(size, 1.0f));
+
+    m_sprite_shader.use();
+    m_sprite_shader.set_mat4("model", model);
+    m_sprite_shader.set_vec3("spriteColor", color);
+
+    glActiveTexture(GL_TEXTURE0);
+    texture.bind();
+
+    glBindVertexArray(m_sprite_vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 }
 
 bool Renderer::load_font(const std::string &font_path, GLuint height)
