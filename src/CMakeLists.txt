@@ -4,6 +4,8 @@ find_package(Freetype REQUIRED)
 set(GAME_SOURCE_FILES
     "game.hpp"
     "game.cpp"
+    "game_object.hpp"
+    "game_object.cpp"
     "logger.hpp"
     "logger.cpp"
     "platform.hpp"
