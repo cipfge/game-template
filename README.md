@@ -1,6 +1,5 @@
-# Game
-
-2D game written in C++ with OpenGL
+# OpenGL Game Template
+OpenGL 2D Game C++ startup project.
 
 ## Linux
 Clone and update the submodules
